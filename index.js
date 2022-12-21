@@ -6,7 +6,8 @@ import cors from 'cors';
 
 import postRoutes from './routes/posts.js';
 import userRouter from "./routes/user.js";
-
+import * as dotenv from 'dotenv'
+dotenv.config()
 const app = express();
 
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
@@ -21,10 +22,11 @@ app.get('/',(req, res)=>{
   res.send("Welcome to SpaceTalks API");
 });
 
-const CONNECTION_URL = 'mongodb+srv://memories-project:memoriesproject123@cluster0.ryutq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+
+const connection_url = process.env.CONNECTION_URL;
 const PORT = process.env.PORT|| 5000;
 
-mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(connection_url, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => app.listen(PORT, () => console.log(`Server Running on Port: http://localhost:${PORT}`)))
   .catch((error) => console.log(`${error} did not connect`));
 
